@@ -3,7 +3,7 @@ package com.tictactoe;
 import java.util.Scanner;
 public class TicTacToeGame {
 	private char board[]=new char[10]; //created a tictactoe board of size 10
-    String usersymbol;
+    char usersymbol;
 	String computersymbol;
     TicTacToeGame(){
 
@@ -20,11 +20,9 @@ public class TicTacToeGame {
         System.out.println("Choose Your Letter x or o : ");
         String symbol=Sc.next(); // taking user input to check
         if (symbol=="x"){        //Comparing the user input
-            usersymbol= "x";
             computersymbol="o";
             System.exit(0);
         }else if (symbol=="o"){
-            usersymbol="o";
             computersymbol="x";
             System.exit(0);
         }else{
@@ -39,10 +37,20 @@ public class TicTacToeGame {
                 System.out.print(horizontalPart);
             }
             System.out.print("+\n");
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < 4; j++) {
                 System.out.print(verticalPart);
             }
             System.out.print("+\n");
+        }
+    }
+    public void makeMove() {
+        Scanner Scan=new Scanner(System.in);
+        System.out.println("Make your move by choosing number 1-9 :- ");
+        int i=Scan.nextInt();
+        if (board[i] == ' ') {
+            board[i] = usersymbol;
+        } else {
+            System.out.println("Already occupied place.");
         }
     }
 
@@ -50,5 +58,6 @@ public class TicTacToeGame {
     	System.out.println("Welcome To TicTacToe Game");
         TicTacToeGame tictactoe=new TicTacToeGame(); //created object for class TicTacToeGame
         tictactoe.showBoard();
+        tictactoe.makeMove();
     }
 }
