@@ -3,8 +3,7 @@ package com.tictactoe;
 import java.util.Scanner;
 public class TicTacToeGame {
 	private char board[]=new char[10]; //created a tictactoe board of size 10
-    char usersymbol;
-	String computersymbol;
+    private char usersymbol,computersymbol;
     TicTacToeGame(){
 
         createboard(); //inside the constructor am calling createboard method
@@ -20,10 +19,12 @@ public class TicTacToeGame {
         System.out.println("Choose Your Letter x or o : ");
         String symbol=Sc.next(); // taking user input to check
         if (symbol=="x"){        //Comparing the user input
-            computersymbol="o";
+            usersymbol= 'x';
+            computersymbol='o';
             System.exit(0);
         }else if (symbol=="o"){
-            computersymbol="x";
+            usersymbol='o';
+            computersymbol='x';
             System.exit(0);
         }else{
             System.out.println("invalid option");
@@ -37,20 +38,31 @@ public class TicTacToeGame {
                 System.out.print(horizontalPart);
             }
             System.out.print("+\n");
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 3; j++) {
                 System.out.print(verticalPart);
             }
             System.out.print("+\n");
         }
     }
-    public void makeMove() {
+    public boolean makeMove() {
         Scanner Scan=new Scanner(System.in);
         System.out.println("Make your move by choosing number 1-9 :- ");
         int i=Scan.nextInt();
-        if (board[i] == ' ') {
-            board[i] = usersymbol;
-        } else {
-            System.out.println("Already occupied place.");
+        int player=1;
+        while (true) {
+            if (board[i] == ' ') {
+                if (player == 0) {
+                    System.out.println("Computer played: ");
+                    board[i] = computersymbol;
+                } else {
+                    System.out.println("Player played: ");
+                    board[i] = usersymbol;
+                }
+                showBoard();
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
