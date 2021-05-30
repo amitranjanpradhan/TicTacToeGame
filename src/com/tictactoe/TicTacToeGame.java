@@ -2,69 +2,94 @@ package com.tictactoe;
 
 import java.util.Scanner;
 public class TicTacToeGame {
-	private char board[]=new char[10]; //created a tictactoe board of size 10
+	 /**
+     * here scanner will take input and taken two variables having char datatype.
+     * created a board of size 10
+     */
+    private static final Scanner SCANNER=new Scanner(System.in);
+    private char board[]=new char[10];
     private char usersymbol,computersymbol;
+    private int player = 0;
     TicTacToeGame(){
+        /**
+         * inside the constructor am calling createboard method.
+         * making toss to start play---it'll decide who will play first.
+         * calling takeUserInput method
+         */
 
-        createboard(); //inside the constructor am calling createboard method
-        takeUserInput();//inside the constructor am calling takeUserInput method
+        createBoard();
+        tossForFirstPlay();
+        takeUserInput();
     }
-    public void createboard(){  //created a method named createboard.
-        for(int count=1;count<10;count++){ //it will iterate this forloop from 1 to 10
-            board[count]=' '; //assigned empty space
+
+    /**
+     * created a method named createboard.
+     * it will iterate this forloop from 1 to 10.
+     * Board valus assigned empty space.
+     */
+    private void createBoard(){
+        for(int count=1;count<10;count++){
+            board[count]=' ';
         }
     }
-    public void takeUserInput(){ //created a method named
-        Scanner Sc=new Scanner(System.in);
+
+    /**
+     * It'll take user input 'x' and '0'.
+     * Compare those to assign the values whether it's computersymbol or usersymbol.
+     */
+    private void takeUserInput(){
         System.out.println("Choose Your Letter x or o : ");
-        String symbol=Sc.next(); // taking user input to check
-        if (symbol=="x"){        //Comparing the user input
+        String symbol=SCANNER.next();
+        if (symbol.equals("x")){
             usersymbol= 'x';
             computersymbol='o';
-            System.exit(0);
-        }else if (symbol=="o"){
+        }else if (symbol.equals("o")){
             usersymbol='o';
             computersymbol='x';
-            System.exit(0);
         }else{
             System.out.println("invalid option");
         }
     }
-    public void showBoard(){
-        String horizontalPart = "+---";
-        String verticalPart = "|   ";
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(horizontalPart);
+    /**
+     * this showBoard method is showing the empty board of 3*3 matrices.
+     * inside this board it'll take the board values assigned empty space.
+     */
+
+    private void showBoard(){
+        String horizontalPart = "+---+---+---+";
+        for (int row = 0; row < 3; row++) {
+            System.out.println(horizontalPart);
+            for (int coloumn = 1; coloumn < 4; coloumn++) {
+                System.out.print("| " + board[row * 3 + coloumn] + " ");
             }
-            System.out.print("+\n");
-            for (int j = 0; j < 3; j++) {
-                System.out.print(verticalPart);
-            }
-            System.out.print("+\n");
+            System.out.print("|\n");
         }
+        System.out.print(horizontalPart);
+        System.out.print("\n");
     }
-    public boolean makeMove() {
-        Scanner Scan=new Scanner(System.in);
-        System.out.println("Make your move by choosing number 1-9 :- ");
-        int i=Scan.nextInt();
-        int player=1;
-        while (true) {
-            if (board[i] == ' ') {
-                if (player == 0) {
-                    System.out.println("Computer played: ");
-                    board[i] = computersymbol;
-                } else {
-                    System.out.println("Player played: ");
-                    board[i] = usersymbol;
-                }
-                showBoard();
-                return false;
+    /**
+     * this makeMove method will take user input from 1 to 9 place your move on the given input.
+     * if player==0 then it'll assign the value as given by computer.
+     */
+    public boolean makeMove(int index, int player) {
+        if (board[index] == ' ') {
+            if (player == 0) {
+                System.out.println("Computer played: ");
+                board[index] = computersymbol;
             } else {
-                return true;
+                System.out.println("Player played: ");
+                board[index] = usersymbol;
             }
+            showBoard();
+            checkWin();
+            return false;
+        } else {
+            return true;
         }
     }
+    /**
+     * this tossForFirstPlay method will get the input from user and check whether it's a head or tail by using random function
+     */
     public void tossForFirstPlay() {
         int player;
         Scanner sc=new Scanner(System.in);
@@ -79,11 +104,73 @@ public class TicTacToeGame {
             player = 0;
         }
     }
+    public void playGame() {
+        int i;
+        for (i = 0; i < 9; i++) {
+            if (player == 0) {
+                computerPlay();
+                player = 1;
+            } else {
+                System.out.println("Select Position (1-9): ");
+                while (makeMove(SCANNER.nextInt(), player)) {
+                    System.out.println("Try different place.");
+                }
+                player = 0;
+            }
+        }
+        if (i == 9) {
+            System.out.println("Game Draw!");
+            System.exit(0);
+        }
+    }
+
+    /**
+     * this checkWin method will check all the possible winning chances...
+     */
+    public void checkWin() {
+        if ((board[1] == usersymbol && board[2] == usersymbol && board[3] == usersymbol) ||
+                (board[4] == usersymbol && board[5] == usersymbol && board[6] == usersymbol) ||
+                (board[7] == usersymbol && board[8] == usersymbol && board[9] == usersymbol) ||
+                (board[1] == usersymbol && board[4] == usersymbol && board[7] == usersymbol) ||
+                (board[2] == usersymbol && board[5] == usersymbol && board[8] == usersymbol) ||
+                (board[3] == usersymbol && board[6] == usersymbol && board[9] == usersymbol) ||
+                (board[1] == usersymbol && board[5] == usersymbol && board[9] == usersymbol) ||
+                (board[3] == usersymbol && board[5] == usersymbol && board[7] == usersymbol)) {
+            System.out.println("Congrats!! You have Won the Match!");
+            System.exit(0);
+        }
+
+        if ((board[1] == computersymbol && board[2] == computersymbol && board[3] == computersymbol) ||
+                (board[4] == computersymbol && board[5] == computersymbol && board[6] == computersymbol) ||
+                (board[7] == computersymbol && board[8] == computersymbol && board[9] == computersymbol) ||
+                (board[1] == computersymbol && board[4] == computersymbol && board[7] == computersymbol) ||
+                (board[2] == computersymbol && board[5] == computersymbol && board[8] == computersymbol) ||
+                (board[3] == computersymbol && board[6] == computersymbol && board[9] == computersymbol) ||
+                (board[1] == computersymbol && board[5] == computersymbol && board[9] == computersymbol) ||
+                (board[3] == computersymbol && board[5] == computersymbol && board[7] == computersymbol)) {
+            System.out.println("Oops!! You Lost the Game!");
+            System.exit(0);
+        }
+
+    }
+
+    private void computerPlay() {
+        // TODO: Implementation computer playing logic
+        while (makeMove((int) (Math.random() * 8) + 1, 0)) {
+            System.out.println("");
+        }
+    }
+
+    /**
+     * Here i have created a main method to execute the program.
+     * an object got created named tictactoe.which called the following methods.
+     * @param args
+     */
 
     public static void main(String[]args){
     	System.out.println("Welcome To TicTacToe Game");
         TicTacToeGame tictactoe=new TicTacToeGame(); //created object for class TicTacToeGame
         tictactoe.showBoard();
-        tictactoe.makeMove();
+        tictactoe.playGame();
     }
 }
