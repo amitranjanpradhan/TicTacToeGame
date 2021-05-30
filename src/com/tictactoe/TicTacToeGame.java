@@ -276,6 +276,21 @@ public class TicTacToeGame {
             board[6]=computersymbol;
         }
     }
+    /**
+     * Added cornor availability method to check the cornors are avilable or not.
+     * if available the the position will move towards cornor at the end.
+     */
+    public void cornerAvailability() {
+            if (board[1] == emptyspace) {
+                System.out.println("select 1st position --Cornor is available");
+            } else if (board[3] == emptyspace) {
+                System.out.println("select 3rd position -- Cornor is available");
+            } else if (board[7] == emptyspace) {
+                System.out.println("select 7th position -- Cornor is available");
+            } else if (board[9] == emptyspace) {
+                System.out.println("select 9th position -- Cornor is available");
+            }
+    }
 
     /**
      * Here i have created a main method to execute the program.
