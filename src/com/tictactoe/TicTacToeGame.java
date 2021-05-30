@@ -65,6 +65,20 @@ public class TicTacToeGame {
             }
         }
     }
+    public void tossForFirstPlay() {
+        int player;
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter Toss (H or T):");
+        String toss=sc.next();
+        int i = (int) Math.round(Math.random()) % 2;
+        if ((i == 1 && toss.equals("H")) || (i == 0 && toss.equals("T"))) {
+            System.out.println("Congratulations! You've won the Toss.");
+            player = 1;
+        } else {
+            System.out.println("You've lost Toss. Computer plays first.");
+            player = 0;
+        }
+    }
 
     public static void main(String[]args){
     	System.out.println("Welcome To TicTacToe Game");
